@@ -6,15 +6,19 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collections;
-// In this case someone would pay more money to have their job run first. 
-// Make an extension to your work that instead of optimizing for the number of jobs, 
-// you now maximize for the total value 
-// (i.e. each job now as an associated cost or weight and you're optimizing for the largest cost).
 
-
+/**
+ * User: Lei Su
+ * Date: 4/2/17
+ * Time: 11:40 AM
+ */
 class LamdaWeightedScheduler {
+	
+	/**
+     * @param jobs a list of jobs to be scheduled
+     * @return largestProfits a list of jobs accepted by the scheduler to make most profits in execution order
+     */
 	public ArrayList<Job> weightedScheduler(ArrayList<Job> jobs) {
-		// corner case
 		ArrayList<Job> largestProfits = new ArrayList<>();
 		if (jobs == null || jobs.size() == 0) {
 			return largestProfits;
@@ -26,7 +30,9 @@ class LamdaWeightedScheduler {
 		return largestProfits;
 	}
 
-	// sort jobs by profit in descending order
+	/**
+     * sort jobs by profit per second in descending order
+     */
 	private void sortByProfitPerSecond(ArrayList<Job> jobs) {
 		Collections.sort(jobs, new
 			Comparator<Job>()
@@ -45,11 +51,14 @@ class LamdaWeightedScheduler {
 			});
 	}
 
-	// fixed end time, find earliest later start time	
+	/**
+     * schedule jobs to make most profits without overlapping
+     * by searching the smallest start time no less than the previous end time
+     */		
 	private void findLargestProfits(ArrayList<Job> jobs, ArrayList<Job> largestProfits) {
 		int i = 0;
 		LocalDateTime previousEndTime;
-		do {				// use iterator?
+		do {				
 			largestProfits.add(jobs.get(i));
 			previousEndTime = jobs.get(i).getEnd();
 			i++;

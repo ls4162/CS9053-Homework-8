@@ -3,16 +3,20 @@ package edu.nyu.cs9053.homework8;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Collections;
-// maximizes the number of jobs a single container can accept
-// each Lambda job consists of the following: a starting time s until a final time t.
-// Given a list of jobs you must accept a subset of the jobs, rejecting all others, so that the accepted jobs do not overlap in time.
-// 
+import java.util.Collections; 
 
-
+/**
+ * User: Lei Su
+ * Date: 4/2/17
+ * Time: 11:40 AM
+ */
 class LambdaScheduler {
+	
+	/**
+     * @param jobs a list of jobs to be scheduled
+     * @return accepted a list of jobs accepted by the scheduler in execution order
+     */
 	public ArrayList<Job> scheduler(ArrayList<Job> jobs) {
-		// corner case
 		ArrayList<Job> accepted = new ArrayList<>();
 		if (jobs == null || jobs.size() == 0) {
 			return accepted;
@@ -24,7 +28,9 @@ class LambdaScheduler {
 		return accepted;
 	}
 
-	// sort jobs by end time
+	/**
+     * sort jobs by end time in ascending order
+     */
 	private void sortByEndTime(ArrayList<Job> jobs) {
 		Collections.sort(jobs, new
 			Comparator<Job>()
@@ -37,13 +43,15 @@ class LambdaScheduler {
 				}
 			});
 	}
-		
-		
-	// fixed end time, find earliest later start time	
+	
+	/**
+     * schedule max amount of jobs without overlapping
+     * by searching the smallest start time no less than the previous end time
+     */		
 	private void findAcceptable(ArrayList<Job> jobs, ArrayList<Job> accepted) {
 		int i = 0;
 		LocalDateTime previousEndTime;
-		do {				// use iterator?
+		do {				
 			accepted.add(jobs.get(i));
 			previousEndTime = jobs.get(i).getEnd();
 			i++;
